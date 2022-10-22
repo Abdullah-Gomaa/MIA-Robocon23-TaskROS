@@ -1,8 +1,8 @@
 #include <ros.h>
 #include <std_msgs/Int32.h>
 
-#define encoderPinA    PA2
-#define encoderPinB    PA3
+#define encoderPinA    PA8
+#define encoderPinB    PA9
 /*****************************************************************************************************************************************/
 // Create a node handler
   ros :: NodeHandle node;
@@ -13,11 +13,16 @@
 
 // Inistantiate publisher with topic name Encoder_Counts  
   ros :: Publisher pub_enc("Encoder_Counts", &msg);
+
+  HardwareSerial Serial3(PB11, PB10); 
 /*****************************************************************************************************************************************/
 // Declare counts variable
 int32_t count = 0;
 /*****************************************************************************************************************************************/
 void setup() {
+  Serial3.begin(115200);
+  (node.getHardware())-> setPort(&Serial3);
+  (node.getHardware())-> setBaud(115200);
 // Initialize node 
   node.initNode();
 // Advertise to the topic published by pub_enc
